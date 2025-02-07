@@ -42,30 +42,30 @@ main() {
 
     log_info "Updating .zshrc..."
     cat > $HOME/.zshrc << 'EOL'
-    export ZSH="$HOME/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
-    ZSH_THEME="robbyrussell"
-    plugins=(git)
+ZSH_THEME="robbyrussell"
+plugins=(git)
 
-    source $ZSH/oh-my-zsh.sh
-    export LANG="en_US.UTF-8"
+source $ZSH/oh-my-zsh.sh
+export LANG="en_US.UTF-8"
 
-    alias ls="exa"
-    alias ll="exa -lal"
-    alias grep="rg"
-    alias gs="git status"
-    alias gl="git pull"
-    alias gp="git push"
-    alias gm="git commit -s -m"
-    alias ga="git add
+alias ls="exa"
+alias ll="exa -lal"
+alias grep="rg"
+alias gs="git status"
+alias gl="git pull"
+alias gp="git push"
+alias gm="git commit -s -m"
+alias ga="git add
 
-    source $HOME/.local/bin/env
+source $HOME/.local/bin/env
 
-    eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
-    . "$HOME/.atuin/bin/env"
+. "$HOME/.atuin/bin/env"
 
-    eval "$(atuin init zsh --disable-up-arrow)"
+eval "$(atuin init zsh --disable-up-arrow)"
 EOL
 
     log_info "Installation completed! Please restart your shell and run 'zsh'"
