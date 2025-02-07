@@ -57,7 +57,7 @@ alias gs="git status"
 alias gl="git pull"
 alias gp="git push"
 alias gm="git commit -s -m"
-alias ga="git add
+alias ga="git add"
 
 source $HOME/.local/bin/env
 
