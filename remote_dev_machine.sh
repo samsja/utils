@@ -16,7 +16,7 @@ main() {
 
     log_info "Installing apt packages..."
     
-    sudo apt update && sudo apt install -y git nvtop tmux htop zsh neovim exa bat
+    sudo apt update && sudo apt install -y git nvtop tmux htop zsh neovim exa bat magic-wormhole
 
     log_info "Installing locales..."
     sudo apt install -y --no-install-recommends locales
