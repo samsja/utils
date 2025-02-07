@@ -18,6 +18,10 @@ main() {
     
     sudo apt update && sudo apt install -y git nvtop tmux htop zsh neovim exa bat
 
+    log_info "Installing locales..."
+    sudo apt install -y --no-install-recommends locales
+    locale-gen "en_US.UTF-8"
+
     log_info "Installing uv..."
     curl -LsSf https://astral.sh/uv/install.sh | sh
     
@@ -27,8 +31,7 @@ main() {
     fi
 
     log_info "Installing zsh and oh my zsh..."
-    sudo apt install -y zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
     chsh -s $(which zsh)
 
     log_info "Installing starship..."
@@ -37,8 +40,7 @@ main() {
     log_info "Installing atuin..."
     curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
-
-    log_info "Setting up .zshrc..."
+    log_info "Updating .zshrc..."
     cat > $HOME/.zshrc << 'EOL'
     export ZSH="$HOME/.oh-my-zsh"
 
@@ -46,6 +48,7 @@ main() {
     plugins=(git)
 
     source $ZSH/oh-my-zsh.sh
+    export LANG="en_US.UTF-8"
 
     alias ls="exa"
     alias ll="exa -lal"
@@ -65,9 +68,8 @@ main() {
     eval "$(atuin init zsh --disable-up-arrow)"
 EOL
 
-    source $HOME/.zshrc
+    log_info "Installation completed! Please restart your shell and run 'zsh'"
 
-    log_info "Installation completed! You might need to restart your shell"
 }
 
 main
