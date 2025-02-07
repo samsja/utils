@@ -52,7 +52,6 @@ export LANG="en_US.UTF-8"
 
 alias ls="exa"
 alias ll="exa -lal"
-alias grep="rg"
 alias gs="git status"
 alias gl="git pull"
 alias gp="git push"
