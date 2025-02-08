@@ -67,6 +67,10 @@ eval "$(starship init zsh)"
 eval "$(atuin init zsh --disable-up-arrow)"
 EOL
 
+    log_info "Setting up git aliases..."
+    git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+
     log_info "Installation completed! Please restart your shell and run 'zsh'"
 
 }
