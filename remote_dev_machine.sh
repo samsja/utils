@@ -70,6 +70,8 @@ EOL
     log_info "Setting up git aliases..."
     git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
+    log_info "adding alacritty info..."
+    curl -sSL https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info | tic -x -
 
     log_info "Installation completed! Please restart your shell and run 'zsh'"
 
