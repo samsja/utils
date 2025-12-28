@@ -28,7 +28,14 @@ main() {
     fi
     
     log_info "Installing apt packages..."
-    $SUDO apt update && $SUDO apt install -y git nvtop tmux htop zsh neovim exa bat magic-wormhole
+    $SUDO apt update && $SUDO apt install -y git nvtop tmux htop zsh exa bat magic-wormhole
+    
+    log_info "Installing Neovim (latest)..."
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+    $SUDO rm -rf /opt/nvim
+    $SUDO tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+    rm nvim-linux-x86_64.tar.gz
+    $SUDO ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
     
     log_info "Installing locales..."
     $SUDO apt install -y --no-install-recommends locales
@@ -78,6 +85,21 @@ EOL
     
     log_info "Setting up git aliases..."
     git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+    
+    log_info "Installing LazyVim..."
+    mv ~/.config/nvim{,.bak} 2>/dev/null || true
+    mv ~/.local/share/nvim{,.bak} 2>/dev/null || true
+    mv ~/.local/state/nvim{,.bak} 2>/dev/null || true
+    mv ~/.cache/nvim{,.bak} 2>/dev/null || true
+    git clone https://github.com/LazyVim/starter ~/.config/nvim
+    rm -rf ~/.config/nvim/.git
+    
+    log_info "Installing Node.js 20..."
+    curl -fsSL https://deb.nodesource.com/setup_20.x | $SUDO -E bash -
+    $SUDO apt install -y nodejs
+    
+    log_info "Installing Claude Code..."
+    $SUDO npm install -g @anthropic-ai/claude-code
     
     log_info "Adding alacritty info..."
     curl -sSL https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info | tic -x -
