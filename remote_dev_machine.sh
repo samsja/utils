@@ -28,7 +28,16 @@ main() {
     fi
     
     log_info "Installing apt packages..."
-    $SUDO apt update && $SUDO apt install -y git nvtop tmux htop zsh neovim exa bat magic-wormhole nodejs npm
+    $SUDO apt update && $SUDO apt install -y git nvtop tmux htop zsh exa bat magic-wormhole
+    
+    log_info "Installing Neovim (latest)..."
+    $SUDO apt remove -y neovim neovim-runtime 2>/dev/null || true
+    curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+    $SUDO rm -rf /opt/nvim-linux-x86_64
+    $SUDO tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+    rm nvim-linux-x86_64.tar.gz
+    $SUDO ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+    hash -r
     
     log_info "Installing locales..."
     $SUDO apt install -y --no-install-recommends locales
@@ -55,6 +64,7 @@ main() {
     
     log_info "Updating .zshrc..."
     cat > $HOME/.zshrc << 'EOL'
+export PATH="/usr/local/bin:$PATH"
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 plugins=(git)
@@ -87,8 +97,19 @@ EOL
     git clone https://github.com/LazyVim/starter ~/.config/nvim
     rm -rf ~/.config/nvim/.git
     
+    log_info "Installing Node.js 20..."
+    curl -fsSL https://nodejs.org/dist/v20.18.0/node-v20.18.0-linux-x64.tar.xz -o /tmp/node.tar.xz
+    $SUDO tar -xJf /tmp/node.tar.xz -C /opt
+    rm /tmp/node.tar.xz
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/node /usr/local/bin/node
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/npm /usr/local/bin/npm
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/npx /usr/local/bin/npx
+    
     log_info "Installing Claude Code..."
-    npm install -g @anthropic-ai/claude-code
+    $SUDO /usr/local/bin/npm install -g @anthropic-ai/claude-code
+    $SUDO /usr/local/bin/npm install -g @musistudio/claude-code-router
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/claude /usr/local/bin/claude
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/claude-code-router /usr/local/bin/claude-code-router
     
     log_info "Adding alacritty info..."
     curl -sSL https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info | tic -x -
