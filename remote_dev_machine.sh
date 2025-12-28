@@ -28,7 +28,7 @@ main() {
     fi
     
     log_info "Installing apt packages..."
-    $SUDO apt update && $SUDO apt install -y git nvtop tmux htop zsh neovim exa bat magic-wormhole
+    $SUDO apt update && $SUDO apt install -y git nvtop tmux htop zsh neovim exa bat magic-wormhole nodejs npm
     
     log_info "Installing locales..."
     $SUDO apt install -y --no-install-recommends locales
@@ -49,8 +49,9 @@ main() {
     log_info "Installing starship..."
     curl -sS https://starship.rs/install.sh | $SUDO sh -s -- -y
     
-    log_info "Installing atuin..."
-    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+    log_info "Installing fzf..."
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --all
     
     log_info "Updating .zshrc..."
     cat > $HOME/.zshrc << 'EOL'
@@ -72,12 +73,22 @@ alias si="sinfo"
 alias sc="scancel"
 source $HOME/.local/bin/env
 eval "$(starship init zsh)"
-. "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh --disable-up-arrow)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 EOL
     
     log_info "Setting up git aliases..."
     git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+    
+    log_info "Installing LazyVim..."
+    mv ~/.config/nvim{,.bak} 2>/dev/null || true
+    mv ~/.local/share/nvim{,.bak} 2>/dev/null || true
+    mv ~/.local/state/nvim{,.bak} 2>/dev/null || true
+    mv ~/.cache/nvim{,.bak} 2>/dev/null || true
+    git clone https://github.com/LazyVim/starter ~/.config/nvim
+    rm -rf ~/.config/nvim/.git
+    
+    log_info "Installing Claude Code..."
+    npm install -g @anthropic-ai/claude-code
     
     log_info "Adding alacritty info..."
     curl -sSL https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info | tic -x -
