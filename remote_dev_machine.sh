@@ -49,8 +49,9 @@ main() {
     log_info "Installing starship..."
     curl -sS https://starship.rs/install.sh | $SUDO sh -s -- -y
     
-    log_info "Installing atuin..."
-    curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+    log_info "Installing fzf..."
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --all
     
     log_info "Updating .zshrc..."
     cat > $HOME/.zshrc << 'EOL'
@@ -72,8 +73,7 @@ alias si="sinfo"
 alias sc="scancel"
 source $HOME/.local/bin/env
 eval "$(starship init zsh)"
-. "$HOME/.atuin/bin/env"
-eval "$(atuin init zsh --disable-up-arrow)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 EOL
     
     log_info "Setting up git aliases..."
