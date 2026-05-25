@@ -86,6 +86,9 @@ eval "$(starship init zsh)"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 EOL
     
+    log_info "Configuring tmux..."
+    grep -q 'set -g mouse on' "$HOME/.tmux.conf" 2>/dev/null || echo 'set -g mouse on' >> "$HOME/.tmux.conf"
+
     log_info "Setting up git aliases..."
     git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
     

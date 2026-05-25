@@ -30,4 +30,7 @@ grep -q 'fzf.bash' "$HOME/.bashrc" 2>/dev/null || echo '[ -f ~/.fzf.bash ] && so
 grep -q "alias sq=" "$HOME/.bashrc" 2>/dev/null || echo "alias sq='squeue'" >> "$HOME/.bashrc"
 grep -q "alias sc=" "$HOME/.bashrc" 2>/dev/null || echo "alias sc='scancel'" >> "$HOME/.bashrc"
 
+log_info "Configuring tmux..."
+grep -q 'set -g mouse on' "$HOME/.tmux.conf" 2>/dev/null || echo 'set -g mouse on' >> "$HOME/.tmux.conf"
+
 log_info "Done. Restart your shell."
