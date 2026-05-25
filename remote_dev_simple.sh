@@ -27,5 +27,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 log_info "Configuring bash..."
 grep -q 'starship init bash' "$HOME/.bashrc" 2>/dev/null || echo 'eval "$(starship init bash)"' >> "$HOME/.bashrc"
 grep -q 'fzf.bash' "$HOME/.bashrc" 2>/dev/null || echo '[ -f ~/.fzf.bash ] && source ~/.fzf.bash' >> "$HOME/.bashrc"
+grep -q "alias sq=" "$HOME/.bashrc" 2>/dev/null || echo "alias sq='squeue'" >> "$HOME/.bashrc"
+grep -q "alias sc=" "$HOME/.bashrc" 2>/dev/null || echo "alias sc='scancel'" >> "$HOME/.bashrc"
 
 log_info "Done. Restart your shell."
