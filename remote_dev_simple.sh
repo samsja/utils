@@ -12,7 +12,7 @@ else
 fi
 
 log_info "Installing apt packages..."
-$SUDO apt update && $SUDO apt install -y git nvtop tmux htop zsh exa bat magic-wormhole curl
+$SUDO apt update && $SUDO apt install -y git nvtop tmux htop zsh curl
 
 log_info "Setting up git lg alias..."
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
