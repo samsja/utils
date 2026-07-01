@@ -113,6 +113,10 @@ EOL
     $SUDO /usr/local/bin/npm install -g @musistudio/claude-code-router
     $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/claude /usr/local/bin/claude
     $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/claude-code-router /usr/local/bin/claude-code-router
+
+    log_info "Installing OpenAI Codex..."
+    $SUDO /usr/local/bin/npm install -g @openai/codex
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/codex /usr/local/bin/codex
     
     log_info "Adding alacritty info..."
     curl -sSL https://raw.githubusercontent.com/alacritty/alacritty/master/extra/alacritty.info | tic -x -
