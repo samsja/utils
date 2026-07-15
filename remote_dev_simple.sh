@@ -33,4 +33,27 @@ grep -q "alias sc=" "$HOME/.bashrc" 2>/dev/null || echo "alias sc='scancel'" >> 
 log_info "Configuring tmux..."
 grep -q 'set -g mouse on' "$HOME/.tmux.conf" 2>/dev/null || echo 'set -g mouse on' >> "$HOME/.tmux.conf"
 
-log_info "Done. Restart your shell."
+# --- Node.js 20 (prerequisite for Claude Code and Codex) ---
+if command -v node &>/dev/null && node -v | grep -q 'v20'; then
+    log_info "Node.js 20 already installed, skipping..."
+else
+    log_info "Installing Node.js 20..."
+    curl -fsSL https://nodejs.org/dist/v20.18.0/node-v20.18.0-linux-x64.tar.xz -o /tmp/node.tar.xz
+    $SUDO tar -xJf /tmp/node.tar.xz -C /opt
+    rm /tmp/node.tar.xz
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/node /usr/local/bin/node
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/npm /usr/local/bin/npm
+    $SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/npx /usr/local/bin/npx
+fi
+
+# --- Claude Code ---
+log_info "Installing Claude Code..."
+$SUDO /usr/local/bin/npm install -g @anthropic-ai/claude-code
+$SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/claude /usr/local/bin/claude 2>/dev/null || true
+
+# --- OpenAI Codex ---
+log_info "Installing OpenAI Codex..."
+$SUDO /usr/local/bin/npm install -g @openai/codex
+$SUDO ln -sf /opt/node-v20.18.0-linux-x64/bin/codex /usr/local/bin/codex 2>/dev/null || true
+
+log_info "Done. Run 'claude' or 'codex' to get started."
